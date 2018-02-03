@@ -1,0 +1,1 @@
+export const URL1_CHANGED = 'URL1_CHANGED';
