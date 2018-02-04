@@ -2,9 +2,22 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'reactstrap';
 
+const resolveColumn = (specification, product) => {
+  if(!product) {
+    return '';
+  }
+  return specification.description !== 'Description' ?
+    product[specification.propertyName] :
+    product.descriptions.map((value, i) => {
+      if(!value.trim()){
+        return '';
+      }
+      return <li key={`li-${i}`}>{value}</li>;
+    });
+};
+
 const ProductSpecification = (props) => {
   const { products, specifications } = props;
-  console.log(props);
   if (!products || !products.length){
     return <div>Empty</div>;
   }
@@ -13,15 +26,23 @@ const ProductSpecification = (props) => {
   const secondProduct = products.length > 1 && products[1];
 
   return (
-    <Table>
+    <Table bordered={true }>
       <tbody>
         {
           specifications.map((specification, i) => {
             return (
               <tr key={`row-${i}`}>
-                <td>{ specification.description }</td>
-                <td>{ firstProduct[specification.propertyName] }</td>
-                <td>{ secondProduct[specification.propertyName] }</td>
+                <td width="20%">{ specification.description }</td>
+                <td width="40%">
+                  {
+                    resolveColumn(specification, firstProduct)
+                  }
+                </td>
+                <td width="40%">
+                  {
+                    resolveColumn(specification, secondProduct)
+                  }
+                </td>
               </tr>
             );
           })

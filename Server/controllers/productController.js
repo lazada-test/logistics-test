@@ -14,12 +14,11 @@ const extractProductSpec = (body) => {
 
   const productInformation = JSON.parse(body.match(productInformationRegex)[1]);
   product.name = productInformation.page.product.name;
-  product.discountedPrice = productInformation.page.product.price;
-  product.originalPrice = productInformation.pdt_amount;
+  product.discountedPrice = `${productInformation.pdt_currency} ${productInformation.page.product.price}`;
+  product.originalPrice = `${productInformation.pdt_currency} ${productInformation.pdt_amount}`;
   product.discountPercentage = productInformation.page.product.discountPercentage;
   product.categoryName = productInformation.category;
   product.brand = productInformation.brand;
-  product.currency = productInformation.pdt_currency;
   product.image = productInformation.pdt_photo;
   product.seller = productInformation.seller_name;
   product.sku = productInformation.pdt_simplesku;

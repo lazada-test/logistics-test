@@ -5,7 +5,6 @@ import * as constants from '../constants';
 
 class ProductUrlInput extends React.Component {
   componentWillUpdate() {
-    console.log('1');
     const { dispatch } = this.props;
 
     dispatch({
