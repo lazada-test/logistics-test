@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { Table } from 'reactstrap';
 
 const ProductSpecification = (props) => {
-  debugger;
   const { products, specifications } = props;
-  if (!products.length){
-    return <div>Wrong</div>;
+  console.log(props);
+  if (!products || !products.length){
+    return <div>Empty</div>;
   }
 
   const firstProduct = products[0];
@@ -16,10 +16,10 @@ const ProductSpecification = (props) => {
     <Table>
       <tbody>
         {
-          specifications.map(specification => {
+          specifications.map((specification, i) => {
             return (
-              <tr>
-                <td>{specification.description}</td>
+              <tr key={`row-${i}`}>
+                <td>{ specification.description }</td>
                 <td>{ firstProduct[specification.propertyName] }</td>
                 <td>{ secondProduct[specification.propertyName] }</td>
               </tr>
@@ -33,7 +33,6 @@ const ProductSpecification = (props) => {
 
 const mapStateToProps = state => (
   {
-    ...state,
     products: state.products,
     specifications: state.specifications
   }
