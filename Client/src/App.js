@@ -4,14 +4,17 @@ import './App.css';
 import { Container, Row, Col} from 'reactstrap';
 import ProductSpecification from './components/product-specification'
 import ProductUrlInput from './components/product-url-input';
+import {connect} from "react-redux";
 
 class App extends Component {
   render() {
+    const { isLoaded } = this.props;
+
     return (
       <Container>
         <Row>
           <Col>
-            <h1>Lazada test</h1>
+            <h1 className="page-title">Lazada test</h1>
           </Col>
         </Row>
         <Row>
@@ -19,7 +22,8 @@ class App extends Component {
         </Row>
         <Row>
           <Col>
-            <ProductSpecification />
+            { !isLoaded && <div className='loader' /> }
+            { isLoaded && <ProductSpecification /> }
           </Col>
         </Row>
       </Container>
@@ -27,4 +31,10 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => (
+  {
+    isLoaded: state.isLoaded,
+  }
+);
+
+export default connect(mapStateToProps)(App);

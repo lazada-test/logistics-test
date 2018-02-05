@@ -22,16 +22,16 @@ const extractProductSpec = (body) => {
   product.image = productInformation.pdt_photo;
   product.seller = productInformation.seller_name;
   product.sku = productInformation.pdt_simplesku;
-  product.inStock = productInformation.page.product.inStock;
+  product.inStock = productInformation.page.product.inStock ? "Yes" : "No";
   product.reviewCount = productInformation.page.product.reviewCount;
-  product.condition = product.u7;
+  product.condition = productInformation.u7;
   product.descriptions = cleanedDescription;
 
   return product;
 };
 
 exports.getSpec = function(req, res) {
-  const { url1, url2 } = req.body;
+  let { url1, url2 } = req.body;
   const products = [];
   const specifications = [
     {
@@ -84,9 +84,14 @@ exports.getSpec = function(req, res) {
     },
   ];
 
-  if(!url1) {
+  if(!url1 && !url2) {
     res.json({});
     return;
+  }
+
+  if(!url1 && url2){
+    url1 = url2;
+    url2 = '';
   }
 
   request(url1).then((body) => {

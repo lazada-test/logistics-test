@@ -19,34 +19,44 @@ const resolveColumn = (specification, product) => {
 const ProductSpecification = (props) => {
   const { products, specifications } = props;
   if (!products || !products.length){
-    return <div>Empty</div>;
+    return <div>Please insert any Lazada's links to compare</div>;
   }
 
   const firstProduct = products[0];
   const secondProduct = products.length > 1 && products[1];
 
   return (
-    <Table bordered={true }>
+    <Table bordered={true}>
       <tbody>
-        {
-          specifications.map((specification, i) => {
-            return (
-              <tr key={`row-${i}`}>
-                <td width="20%">{ specification.description }</td>
-                <td width="40%">
-                  {
-                    resolveColumn(specification, firstProduct)
-                  }
-                </td>
-                <td width="40%">
-                  {
-                    resolveColumn(specification, secondProduct)
-                  }
-                </td>
-              </tr>
-            );
-          })
-        }
+      <tr>
+        <td className='col-spec'>
+        </td>
+        <td className='col-details'>
+          <img src={firstProduct.image}/>
+        </td>
+        <td className='col-details'>
+          <img src={secondProduct.image}/>
+        </td>
+      </tr>
+      {
+        specifications.map((specification, i) => {
+          return (
+            <tr key={`row-${i}`}>
+              <td className='col-spec'>{specification.description}</td>
+              <td className='col-details'>
+                {
+                  resolveColumn(specification, firstProduct)
+                }
+              </td>
+              <td className='col-details'>
+                {
+                  resolveColumn(specification, secondProduct)
+                }
+              </td>
+            </tr>
+          );
+        })
+      }
       </tbody>
     </Table>
   );
